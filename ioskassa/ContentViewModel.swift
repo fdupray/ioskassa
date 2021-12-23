@@ -11,5 +11,4 @@ import SwiftUI
 class ContentViewModel {
     
     @AppStorage(StorageKeys.customURL) var customURL: String?
-    
 }

@@ -14,52 +14,55 @@ struct ContentView: View {
     
     var viewModel = ContentViewModel()
     
+    init() {
+        UINavigationBar.appearance().backgroundColor = UIColor.purple
+        UINavigationBar.appearance().barTintColor = .white
+    }
+    
     var body: some View {
-        
-        NavigationView {
+                    
+        VStack {
             
-            VStack {
+            Text("EHL KASSASYSTEM")
+                .foregroundColor(.white)
+                .font(.system(size: 25))
+                .bold()
+                .padding(.vertical, 64)
+                .foregroundColor(.white)
+            
+            Text("Välj vad vill göra")
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            HStack (spacing: 8) {
                 
-                Text("EHL KASSASYSTEM")
-                    .foregroundColor(.white)
-                    .font(.system(size: 25))
-                    .bold()
-                    .padding(.vertical, 64)
-                    .foregroundColor(.white)
-                
-                Text("Välj vad vill göra")
-                    .foregroundColor(.white)
-                
-                Spacer()
-                
-                HStack (spacing: 8) {
-                    
-                    if let url = viewModel.customURL {
-                        ButtonBox(text: "New account", url: URL(string: url)!)
-                    }
-                    else {
-                        ButtonBox(text: "New account", url: URL(string: "https://ioskassa.ehl.nu/auto_install/auto.php")!)
-                    }
-                    
-                    ButtonBox(text: "Login", url: URL(string: "https://ioskassa.ehl.nu/adm-ms/")!)
-                    
-                    ButtonBox(text: "EHL.nu", url: URL(string: "https://www.ehl.nu")!)
+                if let url = viewModel.customURL {
+                    ButtonBox(text: "New account", url: URL(string: url)!)
                 }
-                .padding(4)
-                .frame(height: 50)
-                .background(Color(uiColor: .black).opacity(0.6))
+                else {
+                    ButtonBox(text: "New account", url: URL(string: "https://ioskassa.ehl.nu/auto_install/auto.php")!)
+                }
+                
+                ButtonBox(text: "Login", url: URL(string: "https://ioskassa.ehl.nu/adm-ms/")!)
+                
+                ButtonBox(text: "EHL.nu", url: URL(string: "https://www.ehl.nu")!)
             }
-            .background(Color(uiColor: .darkGray))
-            
-            NavigationLink(isActive: $navIsActive) {
-                SettingsView()
-            } label: {
-                EmptyView()
-            }
+            .padding(4)
+            .frame(height: 50)
+            .background(Color(uiColor: .black).opacity(0.6))
         }
+        .background(Color(uiColor: .darkGray))
         .navigationTitle("EHL.nu")
-        .navigationBarItems(leading: Image("ehl_logo_utan_text", bundle: nil).frame(width: 22, height: 22), trailing: Image("settings", bundle: nil).onTapGesture {
-            navIsActive = true
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(leading: Image("ehl_logo_utan_text", bundle: nil).resizable().frame(width: 22, height: 22), trailing: NavigationLink(isActive: $navIsActive) {
+            SettingsView()
+        } label: {
+            Button(action: {
+                navIsActive = true
+            }, label: {
+                Image("settings", bundle: nil).resizable().frame(width: 22, height: 22)
+            })
         })
     }
 }
